@@ -30,10 +30,6 @@ async function postForm(e) {
         new FormData(document.getElementById("checksform"))
     );
 
-    for (let entry of form.entries()) {
-        console.log(entry);
-    }
-
     const response = await fetch(API_URL, {
         method: "POST",
         headers: {
@@ -47,6 +43,7 @@ async function postForm(e) {
     if (response.ok) {
         displayErrors(data);
     } else {
+        displayException(data);
         throw new Error(data.error);
     }
 }
@@ -82,6 +79,7 @@ async function getStatus(e) {
 
         //to just see expiry date put this instead console.log(data.expiry);
     } else {
+        displayException(data);
         // add an else clause to our if statement and throw an error if the response is not "okay"(test it by put 123 in the end of your API key then check key in JSHinterface)
         throw new Error(data.error);
     }
@@ -97,4 +95,19 @@ function displayStatus(data) {
 
     resultsModal.show();
     //When you click on Check Key on the JSHinterface the API key expiry date status will display
+}
+
+function displayException(data) {
+
+    let heading = `An Exception Occurred`;
+
+    results = `<div>The API returned status code ${data.status_code}</div>`;
+    results += `<div>Error number: <strong>${data.error_no}</strong></div>`;
+    results += `<div>Error text: <strong>${data.error}</strong></div>`;
+
+    document.getElementById("resultsModalTitle").innerText = heading;
+    document.getElementById("results-content").innerHTML = results;
+
+    resultsModal.show();
+
 }
