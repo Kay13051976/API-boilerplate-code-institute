@@ -15,5 +15,10 @@ async function getStatus(e) {
         console.log(data);
 
         //to just see expiry date put this instead console.log(data.expiry);
+    } else {
+
+        // add an else clause to our if statement and throw an error if the response in not "okay"(test it by put 123 in the end of your API key then check key in JSHinterface)
+        throw new Error(data.error);
+        
     }
 }
